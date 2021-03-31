@@ -33,8 +33,6 @@ let isGameStarted = true;
 let cursors;
 let paddleSpeed = 350;
 let keys = {};
-let p1victorytext;
-let p2victorytext;
 let scorePlayer1 = 0;
 let scorePlayer2 = 0;
 let gamers;
@@ -52,8 +50,17 @@ let score22;
 let score23;
 let score24;
 let score25;
-let instructionText;
-let instructionText2;
+let easy;
+let medium;
+let hard;
+let restart;
+var difficulty;
+let initalVelocityX;
+let initalVelocityY;
+let player1wins;
+let player2wins;
+let restart2;
+let tabtostart;
 
 function preload(){
     this.load.image('ball', './assets/images/ball.png');
@@ -70,6 +77,14 @@ function preload(){
     this.load.image('4', './assets/images/4.png');
     this.load.image('5', './assets/images/5.png');
     this.load.image('0', './assets/images/0.png');
+    this.load.image('medium', './assets/images/medium.png' );
+    this.load.image('hard', './assets/images/hard.png' );
+    this.load.image('easy', './assets/images/easy.png' );
+    this.load.image('restart', './assets/images/restart.png' );
+    this.load.image('player1wins', './assets/images/player1wins.png' );
+    this.load.image('player2wins', './assets/images/player2wins.png' );
+    this.load.image('restart2', './assets/images/restart2.png' );
+    this.load.image('tabtostart', './assets/images/tabtostart.png' );
 
 
 
@@ -113,6 +128,23 @@ function create(){
     multiplayer = this.add.image(this.physics.world.bounds.width / 2, 400, 'multiplayer');
     singleplayer2 = this.add.image(this.physics.world.bounds.width / 2, 320, 'singleplayer2');
     multiplayer2 = this.add.image(this.physics.world.bounds.width / 2, 400, 'multiplayer2');
+
+    easy = this.add.image(this.physics.world.bounds.width / 2, 250, 'easy');
+    medium = this.add.image(this.physics.world.bounds.width / 2, 325, 'medium');
+    hard = this.add.image(this.physics.world.bounds.width / 2, 400, 'hard');
+    restart = this.add.image(this.physics.world.bounds.width / 2, 420, 'restart');
+    restart2 = this.add.image(this.physics.world.bounds.width / 2, 420, 'restart2');
+    easy.setVisible(false);
+    medium.setVisible(false);
+    hard.setVisible(false);
+    restart.setVisible(false);
+    restart2.setVisible(false);
+
+    player1wins = this.add.image(this.physics.world.bounds.width / 2, 320, 'player1wins');
+    player2wins = this.add.image(this.physics.world.bounds.width / 2, 320, 'player2wins');
+    player2wins.setVisible(false);
+    player1wins.setVisible(false);
+
 
     score10 = this.add.image(600,
         this.physics.world.bounds.height / 4,
@@ -163,20 +195,9 @@ function create(){
     score25.setVisible(false);
     var style = { font: "bold 16px Arial", fill: "#ef13ce", boundsAlignH: "center", boundsAlignV: "middle" };
 
-    instructionText =  this.add.text(
-        175,
-        300,
-        'Tap the Ball to start game! Control with mouse or finger.',
-        style
-    );
-    instructionText2 =  this.add.text(
-        250,
-        350,
-        'If Multiplayer control with w + s!',
-        style
-    );
-    instructionText.setVisible(false);
-    instructionText2.setVisible(false);
+    tabtostart = this.add.image(this.physics.world.bounds.width / 2, 450, 'tabtostart');
+    tabtostart.setVisible(false);
+
     score10.setVisible(false);
     score20.setVisible(false);
 
@@ -199,14 +220,10 @@ function create(){
         singleplayer.setVisible(false);
         logo.setVisible(false);
         gamers = false;
-        player1.setVisible(true);
-        player2.setVisible(true);
+        medium.setVisible(true);
+        easy.setVisible(true);
+        hard.setVisible(true);
 
-        ball.setVisible(true);
-        instructionText.setVisible(true);
-        instructionText2.setVisible(true);
-        score10.setVisible(true);
-        score20.setVisible(true);
     })
     singleplayer.setInteractive();
     singleplayer.on('pointerover', ()=>{
@@ -223,17 +240,89 @@ function create(){
         singleplayer.setVisible(false);
         logo.setVisible(false);
         gamers = true;
+        medium.setVisible(true);
+        easy.setVisible(true);
+        hard.setVisible(true);
+
+    })
+    ball.setInteractive();
+    easy.setInteractive();
+    medium.setInteractive();
+    hard.setInteractive();
+    restart.setInteractive();
+
+    restart.on('pointerover', ()=>{
+        restart2.setVisible(true);
+    })
+    restart.setInteractive();
+    restart.on('pointerout', ()=>{
+        restart2.setVisible(false);
+    })
+    restart.on('pointerup', ()=>{
+        player2wins.setVisible(false);
+        player1wins.setVisible(false);
+        restart.setVisible(false);
+        ball.setVisible(true);
+        scorePlayer1 = 0;
+        scorePlayer2 = 0;
+        score20.setVisible(true);
+        score21.setVisible(false);
+        score22.setVisible(false);
+        score23.setVisible(false);
+        score24.setVisible(false);
+        score25.setVisible(false);
+
+        score10.setVisible(true);
+        score11.setVisible(false);
+        score12.setVisible(false);
+        score13.setVisible(false);
+        score14.setVisible(false);
+        score15.setVisible(false);
+
+
+    })
+
+
+    easy.on('pointerup', ()=>{
+        difficulty = 1;
         player1.setVisible(true);
         player2.setVisible(true);
 
         ball.setVisible(true);
-        instructionText.setVisible(true);
-        instructionText2.setVisible(true);
+        tabtostart.setVisible(true);
         score10.setVisible(true);
         score20.setVisible(true);
+        medium.setVisible(false);
+        hard.setVisible(false);
+        easy.setVisible(false);
 
-    })
-    ball.setInteractive();
+    });
+    medium.on('pointerup', ()=>{
+        difficulty = 2;
+        player1.setVisible(true);
+        player2.setVisible(true);
+        ball.setVisible(true);
+        tabtostart.setVisible(true);
+        score10.setVisible(true);
+        score20.setVisible(true);
+        medium.setVisible(false);
+        hard.setVisible(false);
+        easy.setVisible(false);
+
+    });
+    hard.on('pointerup', ()=>{
+        difficulty = 3;
+        player1.setVisible(true);
+        player2.setVisible(true);
+        ball.setVisible(true);
+        tabtostart.setVisible(true);
+        score10.setVisible(true);
+        score20.setVisible(true);
+        medium.setVisible(false);
+        hard.setVisible(false);
+        easy.setVisible(false);
+
+    });
 
 
 
@@ -252,27 +341,26 @@ function create(){
 
 
 
-    p1victorytext = this.add.text(
-        this.physics.world.bounds.width / 2,
-        this.physics.world.bounds.height / 2,
-        'Player 1 wins!'
-    );
-    p1victorytext.setVisible(false);
-    p1victorytext.setOrigin(.5);
-
-    p2victorytext = this.add.text(
-        this.physics.world.bounds.width / 2,
-        this.physics.world.bounds.height / 2,
-        'Player 2 wins!'
-    );
-    p2victorytext.setVisible(false);
-    p2victorytext.setOrigin(.5);
 
 
 
 }
 
 function update(){
+
+    if (difficulty === 1){
+        initalVelocityX = ((Math.random() -1) * 50) + 300;
+        initalVelocityY = ((Math.random() -1) * 50) + 300;
+    }
+    if (difficulty === 2){
+        initalVelocityX = ((Math.random() -1) * 50) + 400;
+        initalVelocityY = ((Math.random() -1) * 50) + 400;
+    }
+    if (difficulty === 3){
+        initalVelocityX = ((Math.random() -1) * 50) + 500;
+        initalVelocityY = ((Math.random() -1) * 50) + 500;
+    }
+
     if (keys.space.isDown && scorePlayer1 < 5 && scorePlayer2 < 5){
         isGameStarted = false;
     }
@@ -283,13 +371,23 @@ function update(){
 
 
     if(!isGameStarted){
-        const initalVelocityX = ((Math.random() -1) * 100) + 400;
-        const initalVelocityY = ((Math.random() -1) * 100) + 400;
+        if (difficulty === 1){
+            initalVelocityX = ((Math.random() -1) * 50) + 300;
+            initalVelocityY = ((Math.random() -1) * 50) + 300;
+        }
+        if (difficulty === 2){
+            initalVelocityX = ((Math.random() -1) * 50) + 400;
+            initalVelocityY = ((Math.random() -1) * 50) + 400;
+        }
+        if (difficulty === 3){
+            initalVelocityX = ((Math.random() -1) * 50) + 500;
+            initalVelocityY = ((Math.random() -1) * 50) + 500;
+        }
         ball.setVelocityX(initalVelocityX);
         ball.setVelocityY(initalVelocityY);
         isGameStarted = true;
-        instructionText.setVisible(false);
-        instructionText2.setVisible(false);
+        tabtostart.setVisible(false);
+
 
     }
 
@@ -301,26 +399,27 @@ function update(){
         ball.y = 320;
         isGameStarted = true;
         scorePlayer2 += 1;
-        if (scorePlayer2 == 1){
+        if (scorePlayer2 === 1){
             score20.setVisible(false);
             score21.setVisible(true);
         }
-        if (scorePlayer2 == 2){
+        if (scorePlayer2 === 2){
             score21.setVisible(false);
             score22.setVisible(true);
         }
-        if (scorePlayer2 == 3){
+        if (scorePlayer2 === 3){
             score22.setVisible(false);
             score23.setVisible(true);
         }
-        if (scorePlayer2 == 4){
+        if (scorePlayer2 === 4){
             score23.setVisible(false);
             score24.setVisible(true);
         }
-        if (scorePlayer2 == 5){
+        if (scorePlayer2 === 5){
             score24.setVisible(false);
             score25.setVisible(true);
-            p2victorytext.setVisible(true);
+            player2wins.setVisible(true);
+            restart.setVisible(true);
             ball.setVisible(false);
         }
 
@@ -334,26 +433,27 @@ function update(){
         ball.y = 320;
         isGameStarted = true;
         scorePlayer1 += 1;
-        if(scorePlayer1 == 1){
+        if(scorePlayer1 === 1){
             score10.setVisible(false);
             score11.setVisible(true);
         }
-        if (scorePlayer1 == 2){
+        if (scorePlayer1 === 2){
             score11.setVisible(false);
             score12.setVisible(true);
         }
-        if (scorePlayer1 == 3){
+        if (scorePlayer1 === 3){
             score12.setVisible(false);
             score13.setVisible(true);
         }
-        if (scorePlayer1 == 4){
+        if (scorePlayer1 === 4){
             score13.setVisible(false);
             score14.setVisible(true);
         }
-        if (scorePlayer1 == 5){
+        if (scorePlayer1 === 5){
             score14.setVisible(false);
             score15.setVisible(true);
-            p2victorytext.setVisible(true);
+            player2wins.setVisible(true);
+            restart.setVisible(true);
             ball.setVisible(false);
         }
 
@@ -366,10 +466,10 @@ function update(){
     player2.body.setVelocityY(0);
 
 
-    if(!this.input.activePointer.isDown && isClicking == true) {
+    if(!this.input.activePointer.isDown && isClicking === true) {
         player1.setData("positionY", this.input.activePointer.position.y);
         isClicking = false;
-    } else if(this.input.activePointer.isDown && isClicking == false) {
+    } else if(this.input.activePointer.isDown && isClicking === false) {
         isClicking = true;
     }
 
@@ -394,7 +494,7 @@ function update(){
 
 
 
-    if (gamers == false){
+    if (gamers === false){
         if (keys.s.isDown){
             player2.body.setVelocityY(paddleSpeed);
         }
@@ -402,7 +502,7 @@ function update(){
             player2.body.setVelocityY(-paddleSpeed);
         }
     }
-    if (gamers == true){
+    if (gamers === true){
         if  (ball.y > 480 ){
             player2.body.setVelocityY(paddleSpeed);
         }
