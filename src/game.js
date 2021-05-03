@@ -37,7 +37,7 @@ let scorePlayer1 = 0;
 let scorePlayer2 = 0;
 let gamers;
 var isClicking = false;
-var swipeDirection;
+let f = 0;
 let score11;
 let score12;
 let score13;
@@ -361,12 +361,21 @@ function update(){
         initalVelocityY = ((Math.random() -1) * 50) + 500;
     }
 
-    if (keys.space.isDown && scorePlayer1 < 5 && scorePlayer2 < 5){
+
+    console.log(f);
+    if (keys.space.isDown && scorePlayer1 < 5 && scorePlayer2 < 5) {
+        f = 1;
+        console.log(f);
         isGameStarted = false;
+
+
+
     }
     ball.on('pointerup', ()=>{
         isGameStarted = false;
+
     })
+
 
 
 
@@ -466,39 +475,36 @@ function update(){
     player2.body.setVelocityY(0);
 
 
-    if(!this.input.activePointer.isDown && isClicking === true) {
-        player1.setData("positionY", this.input.activePointer.position.y);
-        isClicking = false;
-    } else if(this.input.activePointer.isDown && isClicking === false) {
-        isClicking = true;
+    if (cursors.up.isDown && (f === 1)){
+        console.log('test');
+        player1.body.setVelocityY(-paddleSpeed);
+    }
+    if (cursors.down.isDown && (f === 1)){
+        player1.body.setVelocityY(paddleSpeed);
     }
 
-    if(Math.abs(player1.y - player1.getData("positionY")) <= 10) {
+
+    if (!this.input.activePointer.isDown && isClicking === true && f === 0) {
+        player1.setData("positionY", this.input.activePointer.position.y);
+        isClicking = false;
+    } else if (this.input.activePointer.isDown && isClicking === false && f === 0) {
+        isClicking = true;
+    }
+    if (Math.abs(player1.y - player1.getData("positionY")) <= 10 && f === 0) {
         player1.y = player1.getData("positionY");
-    } else if(player1.y < player1.getData("positionY")) {
+    } else if (player1.y < player1.getData("positionY") && f === 0) {
         player1.y += 15;
-    } else if(player1.y > player1.getData("positionY")) {
+    } else if (player1.y > player1.getData("positionY") && f === 0) {
         player1.y -= 15;
     }
 
 
 
-
-
-    /*if (cursors.up.isDown){
-        player1.body.setVelocityY(-paddleSpeed);
-    }
-    if (cursors.down.isDown){
-        player1.body.setVelocityY(paddleSpeed);
-    }*/
-
-
-
     if (gamers === false){
-        if (keys.s.isDown){
+        if (keys.s.isDown && f === 1){
             player2.body.setVelocityY(paddleSpeed);
         }
-        if (keys.w.isDown){
+        if (keys.w.isDown && f === 1){
             player2.body.setVelocityY(-paddleSpeed);
         }
     }
