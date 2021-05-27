@@ -61,6 +61,11 @@ let player1wins;
 let player2wins;
 let restart2;
 let tabtostart;
+let background;
+let easy2;
+let medium2;
+let hard2;
+
 
 function preload(){
     this.load.image('ball', './assets/images/ball.png');
@@ -85,12 +90,19 @@ function preload(){
     this.load.image('player2wins', './assets/images/player2wins.png' );
     this.load.image('restart2', './assets/images/restart2.png' );
     this.load.image('tabtostart', './assets/images/tabtostart.png' );
+    this.load.image('background', './assets/images/background.png' );
+    this.load.image('medium2', './assets/images/medium2.png' );
+    this.load.image('hard2', './assets/images/hard2.png' );
+    this.load.image('easy2', './assets/images/easy2.png' );
 
 
 
 }
 function create(){
 
+
+    background = this.add.image(400, 300, 'background');
+    background.setVisible(false);
 
 
     ball = this.physics.add.sprite(
@@ -132,11 +144,17 @@ function create(){
     easy = this.add.image(this.physics.world.bounds.width / 2, 250, 'easy');
     medium = this.add.image(this.physics.world.bounds.width / 2, 325, 'medium');
     hard = this.add.image(this.physics.world.bounds.width / 2, 400, 'hard');
+    easy2 = this.add.image(this.physics.world.bounds.width / 2, 250, 'easy2');
+    medium2 = this.add.image(this.physics.world.bounds.width / 2, 325, 'medium2');
+    hard2 = this.add.image(this.physics.world.bounds.width / 2, 400, 'hard2');
     restart = this.add.image(this.physics.world.bounds.width / 2, 420, 'restart');
     restart2 = this.add.image(this.physics.world.bounds.width / 2, 420, 'restart2');
     easy.setVisible(false);
     medium.setVisible(false);
     hard.setVisible(false);
+    easy2.setVisible(false);
+    medium2.setVisible(false);
+    hard2.setVisible(false);
     restart.setVisible(false);
     restart2.setVisible(false);
 
@@ -258,10 +276,35 @@ function create(){
     restart.on('pointerout', ()=>{
         restart2.setVisible(false);
     })
+
+
+    easy.on('pointerover', ()=>{
+        easy2.setVisible(true);
+    })
+    easy.on('pointerout', ()=>{
+        easy2.setVisible(false);
+    })
+
+    medium.on('pointerover', ()=>{
+        medium2.setVisible(true);
+    })
+    medium.on('pointerout', ()=>{
+        medium2.setVisible(false);
+    })
+
+    hard.on('pointerover', ()=>{
+        hard2.setVisible(true);
+    })
+    hard.on('pointerout', ()=>{
+        hard2.setVisible(false);
+    })
+
+
     restart.on('pointerup', ()=>{
         player2wins.setVisible(false);
         player1wins.setVisible(false);
         restart.setVisible(false);
+        background.setVisible(true);
         ball.setVisible(true);
         scorePlayer1 = 0;
         scorePlayer2 = 0;
@@ -288,6 +331,7 @@ function create(){
         player1.setVisible(true);
         player2.setVisible(true);
 
+        background.setVisible(true);
         ball.setVisible(true);
         tabtostart.setVisible(true);
         score10.setVisible(true);
@@ -301,6 +345,7 @@ function create(){
         difficulty = 2;
         player1.setVisible(true);
         player2.setVisible(true);
+        background.setVisible(true);
         ball.setVisible(true);
         tabtostart.setVisible(true);
         score10.setVisible(true);
@@ -312,6 +357,7 @@ function create(){
     });
     hard.on('pointerup', ()=>{
         difficulty = 3;
+        background.setVisible(true);
         player1.setVisible(true);
         player2.setVisible(true);
         ball.setVisible(true);

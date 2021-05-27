@@ -10,6 +10,13 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="hiddenUrls">
+      <set>
+        <option value="https://github.com/clemens0231/WingVsAttack" />
+      </set>
+    </option>
+  </component>
   <component name="ProjectId" id="1qVuxPH8ICpwN68IpHawczmcNeF" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -42,6 +49,7 @@
       <workItem from="1617805527592" duration="1254000" />
       <workItem from="1620037040107" duration="3661000" />
       <workItem from="1621182504022" duration="4000" />
+      <workItem from="1622118612800" duration="1880000" />
     </task>
     <servers />
   </component>
