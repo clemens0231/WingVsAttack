@@ -304,6 +304,7 @@ function create(){
         player2wins.setVisible(false);
         player1wins.setVisible(false);
         restart.setVisible(false);
+        restart2.setVisible(false);
         background.setVisible(true);
         ball.setVisible(true);
         scorePlayer1 = 0;
@@ -473,7 +474,7 @@ function update(){
         if (scorePlayer2 === 5){
             score24.setVisible(false);
             score25.setVisible(true);
-            player2wins.setVisible(true);
+            player1wins.setVisible(true);
             restart.setVisible(true);
             ball.setVisible(false);
         }
