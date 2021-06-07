@@ -2,7 +2,7 @@ const config = {
     type: Phaser.AUTO,
     parent: 'game',
     width: 800,
-    height: 640,
+    height: 620,
     scale: {
         mode: Phaser.RESIZE,
         autoCenter: Phaser.Scale.CENTER_BOTH
@@ -65,6 +65,9 @@ let background;
 let easy2;
 let medium2;
 let hard2;
+let back;
+let back2;
+
 
 
 function preload(){
@@ -94,6 +97,9 @@ function preload(){
     this.load.image('medium2', './assets/images/medium2.png' );
     this.load.image('hard2', './assets/images/hard2.png' );
     this.load.image('easy2', './assets/images/easy2.png' );
+    this.load.image('back', './assets/images/back.png' );
+    this.load.image('back2', './assets/images/back2.png' );
+
 
 
 
@@ -103,6 +109,12 @@ function create(){
 
     background = this.add.image(400, 300, 'background');
     background.setVisible(false);
+
+    back = this.add.image(700, 50, 'back');
+    back2 = this.add.image(700, 50, 'back2');
+    back.setVisible(false);
+    back2.setVisible(false);
+
 
 
     ball = this.physics.add.sprite(
@@ -299,6 +311,51 @@ function create(){
         hard2.setVisible(false);
     })
 
+    back.setInteractive();
+    back.on('pointerover', ()=>{
+        back2.setVisible(true);
+    })
+    back.on('pointerout', ()=>{
+        back2.setVisible(false);
+    })
+    back.on('pointerup', ()=>{
+        back.setVisible(false);
+        back2.setVisible(false);
+
+        difficulty = 1;
+        player1.setVisible(false);
+        player2.setVisible(false);
+
+        background.setVisible(false);
+        ball.setVisible(false);
+        tabtostart.setVisible(false);
+        score10.setVisible(false);
+        score20.setVisible(false);
+        logo.setVisible(true);
+        singleplayer.setVisible(true);
+        multiplayer.setVisible(true);
+        scorePlayer1 = 0;
+        scorePlayer2 = 0;
+        score20.setVisible(false);
+        score21.setVisible(false);
+        score22.setVisible(false);
+        score23.setVisible(false);
+        score24.setVisible(false);
+        score25.setVisible(false);
+
+        score10.setVisible(false);
+        score11.setVisible(false);
+        score12.setVisible(false);
+        score13.setVisible(false);
+        score14.setVisible(false);
+        score15.setVisible(false);
+
+
+
+    })
+
+
+
 
     restart.on('pointerup', ()=>{
         player2wins.setVisible(false);
@@ -340,6 +397,7 @@ function create(){
         medium.setVisible(false);
         hard.setVisible(false);
         easy.setVisible(false);
+        back.setVisible(true);
 
     });
     medium.on('pointerup', ()=>{
@@ -354,6 +412,7 @@ function create(){
         medium.setVisible(false);
         hard.setVisible(false);
         easy.setVisible(false);
+        back.setVisible(true);
 
     });
     hard.on('pointerup', ()=>{
@@ -368,6 +427,7 @@ function create(){
         medium.setVisible(false);
         hard.setVisible(false);
         easy.setVisible(false);
+        back.setVisible(true);
 
     });
 
@@ -427,6 +487,7 @@ function update(){
 
 
     if(!isGameStarted){
+
         if (difficulty === 1){
             initalVelocityX = ((Math.random() -1) * 50) + 300;
             initalVelocityY = ((Math.random() -1) * 50) + 300;
